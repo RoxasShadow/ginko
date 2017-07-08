@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>銀行 - Wallet Overview</title>
+
+  <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+  <link href="node_modules/morris.js/morris.css" rel="stylesheet">
+  <link href="node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div id="wrapper">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="index.html" title="Ginko">銀行</a>
+      </div>
+
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav side-nav">
+          <li class="active">
+            <a href="index.html"><i class="fa fa-fw fa-bank"></i> Dashboard</a>
+          </li>
+          <li>
+            <a href="javascript:;" data-toggle="collapse" data-target="#fiat"><i class="fa fa-fw fa-money"></i> FIAT <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul id="fiat" class="collapse">
+              <li>
+                <a href="#">UniCredit</a>
+              <li>
+                <a href="#">N26</a>
+              </li>
+              <li>
+                <a href="#">PayPal</a>
+              </li>
+              <li>
+                <a href="#">Lottomaticard</a>
+              </li>
+              <li>
+                <a href="#">GeniusCard</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="javascript:;" data-toggle="collapse" data-target="#crypto"><i class="fa fa-fw fa-bitcoin"></i> Crypto <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul id="crypto" class="collapse">
+              <li>
+                <a href="#">Coinbase</a>
+              <li>
+                <a href="#">Kraken</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div id="page-wrapper">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <h1 class="page-header">Dashboard</h1>
+          </div>
+        </div>
+
+        <div id="dashboard"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="node_modules/raphael/raphael.min.js"></script>
+  <script src="node_modules/morris.js/morris.min.js"></script>
+</body>
+</html>
