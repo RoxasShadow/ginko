@@ -63,9 +63,6 @@ class History extends React.Component {
                 </tbody>
               </table>
             </div>
-            <div className="text-right">
-              <a href="#">View All Transactions <i className="fa fa-arrow-circle-right"></i></a>
-            </div>
           </div>
         </div>
       </div>

@@ -55,7 +55,7 @@ class Trend extends React.Component {
         <div className="panel panel-default">
           <div className="panel-heading">
             <div className="panel-title pull-left">
-              <h3 className="panel-title"><i className="fa fa-bar-chart-o fa-fw"></i> Trend</h3>
+              <h3 className="panel-title"><i className="fa fa-bar-chart-o fa-fw"></i> Capital amount</h3>
             </div>
 
             <div className="panel-title pull-right">
