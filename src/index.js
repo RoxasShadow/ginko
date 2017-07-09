@@ -4,8 +4,7 @@ import ReactDOM from 'react-dom';
 import Trend from './components/Trend';
 import Funds from './components/Funds';
 import History from './components/History';
-import CurrencySelector from './components/CurrencySelector';
-import './components/CurrencySelector.css';
+import RegisterFunds from './components/RegisterFunds';
 
 class Dashboard extends React.Component {
   render() {
@@ -24,4 +23,5 @@ class Dashboard extends React.Component {
   }
 }
 
-ReactDOM.render(<Dashboard />, document.getElementById("dashboard"));
+ReactDOM.render(<Dashboard />, document.getElementById('dashboard'));
+ReactDOM.render(<RegisterFunds />, document.getElementById('register-funds'));

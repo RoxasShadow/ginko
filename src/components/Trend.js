@@ -1,21 +1,13 @@
 import React from 'react';
+import moment from 'moment';
+import $ from 'jquery';
+import makeMorris from 'morris-js-module';
 
 import CurrencySelector from './CurrencySelector';
 import './CurrencySelector.css';
+import { formatMoney } from '../utils';
 
-import $ from 'jquery';
-import makeMorris from 'morris-js-module';
-var Morris = makeMorris($);
-
-function formatMoney(v, c) {
-  let browserLang = navigator.language || navigator.userLanguage;
-
-  return new Intl.NumberFormat(browserLang, {
-    style: 'currency',
-    currency: c,
-    minimumFractionDigits: 2
-  }).format(v);
-}
+let Morris = makeMorris($);
 
 class Trend extends React.Component {
   constructor() {
@@ -35,22 +27,18 @@ class Trend extends React.Component {
   }
 
   drawChart() {
-    fetch('/trend').then(response => {
+    fetch(`/funds?trend=monthly&currency=${this.state.currency}`).then(response => {
       return response.json().then(history => {
-        history.forEach((e) => {
-          e.funds = e.currencies[this.state.currency];
-        });
-
         // this is a clear hack as I'm not able to
         // memoize the chart object to the props
         if(window.trend_chart) {
           window.trend_chart.setData(history);
         } else {
-          window.trend_chart = Morris.Area({
+          window.trend_chart = Morris.Line({
             element: 'morris-area-chart',
             data: history,
             xkey: 'date',
-            ykeys: ['funds'],
+            ykeys: ['amount'],
             labels: ['Funds'],
             pointsize: 2,
             hidehover: 'auto',
@@ -75,6 +63,7 @@ class Trend extends React.Component {
               <div className="btn-group">
                 <CurrencySelector parent={this} currency='EUR' />
                 <CurrencySelector parent={this} currency='BTC' />
+                <CurrencySelector parent={this} currency='ETH' />
               </div>
             </div>
 

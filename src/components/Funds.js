@@ -1,21 +1,12 @@
 import React from 'react';
+import $ from 'jquery';
+import makeMorris from 'morris-js-module';
 
 import CurrencySelector from './CurrencySelector';
 import './CurrencySelector.css';
+import { formatMoney } from '../utils';
 
-import $ from 'jquery';
-import makeMorris from 'morris-js-module';
 var Morris = makeMorris($);
-
-function formatMoney(v, c) {
-  let browserLang = navigator.language || navigator.userLanguage;
-
-  return new Intl.NumberFormat(browserLang, {
-    style: 'currency',
-    currency: c,
-    minimumFractionDigits: 2
-  }).format(v);
-}
 
 class Funds extends React.Component {
   constructor() {
@@ -35,10 +26,10 @@ class Funds extends React.Component {
   }
 
   drawDonut() {
-    fetch('/funds').then(response => {
+    fetch(`/funds?currency=${this.state.currency}`).then(response => {
       response.json().then(funds => {
-        funds = funds[this.state.currency].map(h => {
-          return { label: h.bank, value: h.funds };
+        funds = funds.map(h => {
+          return { label: h.bank_name, value: h.amount };
         });
 
         // this is a clear hack as I'm not able to

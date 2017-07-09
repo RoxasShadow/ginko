@@ -7,6 +7,9 @@
     "react-dom": "^15.6.1",
     "react-scripts": "1.0.10",
     "react-bootstrap": "^0.31.0",
+    "react-datepicker": "^0.48.0",
+    "react-moment": "^0.4.2",
+    "react-currency-input": "https://github.com/tncalvert/react-currency-input#selection_changes",
     "morris-js-module": "^1.2.1",
     "jquery": "^3.2.1",
     "raphael": "^2.2.7"

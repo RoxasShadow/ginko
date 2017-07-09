@@ -1,34 +1,18 @@
 import React from 'react';
+import moment from 'moment';
 
-function formatMoney(v, c) {
-  let browserLang = navigator.language || navigator.userLanguage;
-
-  return new Intl.NumberFormat(browserLang, {
-    style: 'currency',
-    currency: c,
-    minimumFractionDigits: 2
-  }).format(v);
-}
-
-function diff(t) {
-  if(t.funds > t.prev_funds) {
-    return ` (+ ${formatMoney(t.funds - t.prev_funds, t.currency)})`;
-  } else if(t.funds < t.prev_funds) {
-    return ` (- ${formatMoney(t.prev_funds - t.funds, t.currency)})`;
-  }
-
-  return '';
-}
+import { formatMoney, diff } from '../utils';
 
 class HistoryEntry extends React.Component {
   render() {
     let e = this.props.e;
+    let date = moment(e.aligned_at);
 
     return(
       <tr>
-        <td>{e.date}</td>
-        <td>{e.bank}</td>
-        <td>{formatMoney(e.funds, e.currency)}{diff(e)}</td>
+        <td>{date.format('DD/MM/YY, H:mm')} ({date.fromNow()})</td>
+        <td>{e.bank_name}</td>
+        <td>{formatMoney(e.amount, e.amount_currency)}{diff(e)}</td>
       </tr>
     );
   }
@@ -39,16 +23,16 @@ class History extends React.Component {
     super();
 
     this.state = {
-      history: []
+      funds: []
     };
   }
 
   componentDidMount() {
     let react = this;
 
-    fetch('/history').then(response => {
-      return response.json().then(json => {
-        react.setState({ history: json });
+    fetch('/funds').then(response => {
+      return response.json().then(funds => {
+        react.setState({ funds: funds });
       });
     });
   }
@@ -71,7 +55,7 @@ class History extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.history.map((e, i) => {
+                  {this.state.funds.map((e, i) => {
                     return(
                       <HistoryEntry key={i} e={e} />
                     );
