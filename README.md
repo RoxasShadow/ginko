@@ -22,6 +22,9 @@ Setup
   $ bundle exec rails s -p 4567
   ```
 
+  To add a `Bank`, enter the console via `$ bundle exec rails c` and type
+  something like `Bank.create!(name: 'My Bank')`.
+
 - Frontend
 
   ```sh
