@@ -1,5 +1,5 @@
 # 銀行 - Ginko
-## NEVER(!) DO EXPOSE THIS TO THE WEB
+### DO NOT EXPOSE THIS TO THE WEB (unless you want to make your wallet public, ofc).
 
 ![Screenshot](/screenshot.png?raw=true)
 
