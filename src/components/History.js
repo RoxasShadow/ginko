@@ -30,7 +30,7 @@ class History extends React.Component {
   componentDidMount() {
     const react = this;
 
-    fetch('/funds').then(response => {
+    fetch('/history').then(response => {
       return response.json().then(funds => {
         react.setState({ funds: funds });
       });

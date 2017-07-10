@@ -38,7 +38,7 @@ class Trend extends React.Component {
           window.trend_chart = Morris.Line({
             element: 'morris-area-chart',
             data: history,
-            xkey: 'date',
+            xkey: 'aligned_at',
             ykeys: ['amount'],
             labels: ['Funds'],
             pointsize: 2,

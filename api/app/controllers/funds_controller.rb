@@ -1,24 +1,18 @@
 class FundsController < ApplicationController
+  # GET /history
+  def history
+    funds = Fund.includes(:bank).order(aligned_at: :desc)
+    render json: funds
+  end
+
   # GET /funds
   def index
-    if params[:currency].present?
-      funds = Fund.includes(:bank)
-        .order('aligned_at desc')
-        .where(amount_currency: params[:currency])
+    funds = Fund.includes(:bank)
+      .order(aligned_at: :desc)
+      .where(amount_currency: params[:currency])
 
-      if params[:trend] == 'monthly'
-        funds = funds.group_by_month(:aligned_at, format: '%Y-%m').sum(:amount_cents)
-        funds = [].tap do |trend|
-          funds.each do |k, v|
-            trend << {
-              date: k,
-              amount: Money.new(v, params[:currency]).to_f
-            }
-          end
-        end
-      end
-    else
-      funds = Fund.includes(:bank).order('aligned_at desc')
+    if params[:trend] == 'monthly'
+      # TODO
     end
 
     render json: funds
