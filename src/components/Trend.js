@@ -18,6 +18,8 @@ class Trend extends React.Component {
   }
 
   componentDidMount() {
+    window.trend_chart = null;
+
     this.drawChart();
   }
 

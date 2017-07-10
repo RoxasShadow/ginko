@@ -18,6 +18,8 @@ class Funds extends React.Component {
   }
 
   componentDidMount() {
+    window.funds_donut = null;
+
     this.drawDonut();
   }
 
