@@ -3,8 +3,8 @@ import { Radio } from 'react-bootstrap';
 
 class CurrencySelector extends React.Component {
   render() {
-    let currency = this.props.currency;
-    let checked  = this.props.parent.state.currency === currency;
+    const currency = this.props.currency;
+    const checked  = this.props.parent.state.currency === currency;
 
     return(
       <Radio

@@ -5,8 +5,8 @@ import { formatMoney, diff } from '../utils';
 
 class HistoryEntry extends React.Component {
   render() {
-    let e = this.props.e;
-    let date = moment(e.aligned_at);
+    const e = this.props.e;
+    const date = moment(e.aligned_at);
 
     return(
       <tr>
@@ -28,7 +28,7 @@ class History extends React.Component {
   }
 
   componentDidMount() {
-    let react = this;
+    const react = this;
 
     fetch('/funds').then(response => {
       return response.json().then(funds => {

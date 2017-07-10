@@ -6,7 +6,7 @@ import CurrencySelector from './CurrencySelector';
 import './CurrencySelector.css';
 import { formatMoney } from '../utils';
 
-let Morris = makeMorris($);
+const Morris = makeMorris($);
 
 class Trend extends React.Component {
   constructor() {

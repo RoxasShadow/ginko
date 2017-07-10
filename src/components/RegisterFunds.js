@@ -55,7 +55,7 @@ class RegisterFunds extends React.Component {
   }
 
   handleCurrencyChange(e) {
-    let currency = e.target.value;
+    const currency = e.target.value;
 
     this.setState({
       currency: currency,
@@ -72,7 +72,7 @@ class RegisterFunds extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    let payload = {
+    const payload = {
       fund: {
         'bank_id': this.state.bank || $('.bankSelector').val(),
         'aligned_at': this.state.startDate,
@@ -81,7 +81,7 @@ class RegisterFunds extends React.Component {
       }
     };
 
-    let opts = {
+    const opts = {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {
@@ -109,7 +109,7 @@ class RegisterFunds extends React.Component {
           <InputGroup>
             <InputGroup.Addon><i className="fa fa-bank"></i></InputGroup.Addon>
             <FormControl className="bankSelector" componentClass="select" placeholder="select" onChange={this.handleBankChange}>
-              {this.state.banks.map(bank => (<option value={bank.id}>{bank.name}</option>))}
+              {this.state.banks.map(bank => (<option value={bank.id} key={bank.id}>{bank.name}</option>))}
             </FormControl>
           </InputGroup>
         </FormGroup>

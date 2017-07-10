@@ -1,8 +1,8 @@
 function formatMoney(v, c) {
-  let precision = c === 'EUR' ? 2 : 8;
+  const precision = c === 'EUR' ? 2 : 8;
 
-  let symbol = currencyToSym(c);
-  let money = new Intl.NumberFormat('it-IT', {
+  const symbol = currencyToSym(c);
+  const money = new Intl.NumberFormat('it-IT', {
     style: 'decimal',
     minimumFractionDigits: precision
   }).format(v);
