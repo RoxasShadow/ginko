@@ -6,19 +6,41 @@ class FundsController < ApplicationController
   end
 
   def trend
-    # FIXME: months without any fund are 0
-    funds = Fund.includes(:bank)
-      .where(amount_currency: params[:currency])
-      .group_by_month(:aligned_at, format: '%Y-%m')
-      .sum(:amount_cents)
+    year  = Date.today.year.to_s
+    funds = {}
 
-    funds = [].tap do |trend|
-      funds.each do |k, v|
-        trend << {
-          date: k,
-          amount: Money.new(v, params[:currency]).to_f
-        }
+    # first month in which funds are present
+    start_month = Fund.where(amount_currency: params[:currency])
+      .where("strftime('%Y', aligned_at) = ?", year)
+      .order(aligned_at: :asc)
+      .select(:aligned_at)
+      .limit(1)
+
+    return render json: [] if start_month.empty?
+    start_month = start_month.first.aligned_at.month
+
+    (start_month..Date.today.month).each do |m|
+      funds[m] = []
+
+      # for each bank, get the funds to it belonging registered in this year.
+      # from these records, get the most recent one in relation to the month
+      # that we are now iterating
+      Bank.all.map do |bank|
+        funds[m].concat Fund.group(:bank_id)
+          .where(bank_id: bank.id)
+          .where(amount_currency: params[:currency])
+          .where("strftime('%Y', aligned_at) = ?", year)
+          .where("CAST(strftime('%m', aligned_at) AS INTEGER) <= ?", m)
+          .having('aligned_at = MAX(aligned_at)')
+          .pluck(:amount_cents)
       end
+    end
+
+    funds = funds.map do |k, v|
+      {
+        date: "#{year}-#{k}",
+        amount: Money.new(v.sum, params[:currency]).to_f
+      }
     end
 
     render json: funds
