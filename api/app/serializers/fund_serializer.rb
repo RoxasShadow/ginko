@@ -16,7 +16,7 @@ class FundSerializer < ActiveModel::Serializer
   def previous_amount
     fund = Fund.where('bank_id = ? AND amount_currency = ? AND aligned_at < ? AND id != ?',
                       object.bank_id, object.amount_currency, object.aligned_at, object.id)
-      .order(aligned_at: :desc)
+      .order(aligned_at: :asc)
       .last
     fund.amount.to_f if fund
   end
