@@ -28,17 +28,17 @@ class Trend extends React.Component {
   }
 
   drawChart() {
-    fetch(`/funds?trend=monthly&currency=${this.state.currency}`).then(response => {
-      return response.json().then(history => {
+    fetch(`/trend?currency=${this.state.currency}`).then(response => {
+      return response.json().then(trend => {
         // this is a clear hack as I'm not able to
         // memoize the chart object to the props
         if(window.trend_chart) {
-          window.trend_chart.setData(history);
+          window.trend_chart.setData(trend);
         } else {
           window.trend_chart = Morris.Line({
             element: 'morris-area-chart',
-            data: history,
-            xkey: 'aligned_at',
+            data: trend,
+            xkey: 'date',
             ykeys: ['amount'],
             labels: ['Funds'],
             pointsize: 2,
