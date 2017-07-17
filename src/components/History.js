@@ -39,10 +39,10 @@ class History extends React.Component {
 
   render() {
     return(
-      <div className="col-lg-6">
+      <div className="col-lg-12">
         <div className="panel panel-default">
           <div className="panel-heading">
-            <h3 className="panel-title"><i className="fa fa-money fa-fw"></i> History</h3>
+            <h3 className="panel-title"><i className="fa fa-clock-o fa-fw"></i> History</h3>
           </div>
           <div className="panel-body">
             <div className="table-responsive">

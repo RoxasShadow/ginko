@@ -5,6 +5,7 @@ class FundsController < ApplicationController
     render json: funds
   end
 
+  # GET /trend
   def trend
     year  = Date.today.year.to_s
     funds = {}
@@ -42,6 +43,33 @@ class FundsController < ApplicationController
         amount: Money.new(v.sum, params[:currency]).to_f
       }
     end
+
+    render json: funds
+  end
+
+  # GET /currencies
+  def currencies
+    fund_ids = Fund.includes(:bank)
+      .group(:bank_id)
+      .having('aligned_at = MAX(aligned_at)')
+      .select(:id)
+
+    funds = Fund.where(id: fund_ids)
+      .group(:amount_currency)
+      .sum(:amount_cents)
+      .map do |currency, amount|
+        amount = Money.new(amount, params[:currency]).to_f
+
+        if params[:currency] != currency
+          # convert to params[:currency]
+          amount *= 150.0
+        end
+
+        {
+          amount: amount, # `amount` worth of `currency`
+          amount_currency: currency
+        }
+      end
 
     render json: funds
   end

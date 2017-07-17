@@ -5,6 +5,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Menu from './components/Menu';
 import Trend from './components/Trend';
 import Funds from './components/Funds';
+import Currencies from './components/Currencies';
 import History from './components/History';
 import RegisterFunds from './components/RegisterFunds';
 
@@ -36,6 +37,7 @@ const Dashboard = () => (
 
     <div className="row">
       <Funds />
+      <Currencies />
       <History />
     </div>
   </div>
