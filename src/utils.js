@@ -10,16 +10,6 @@ function formatMoney(v, c) {
   return `${symbol} ${money}`;
 }
 
-function diff(t) {
-  if(t.previous_amount === null || t.amount === t.previous_amount) {
-    return '';
-  } else if(t.amount > t.previous_amount) {
-    return ` (+ ${formatMoney(t.amount - t.previous_amount, t.amount_currency)})`;
-  } else if(t.amount < t.previous_amount) {
-    return ` (- ${formatMoney(t.previous_amount - t.amount, t.amount_currency)})`;
-  }
-}
-
 function currencyToSym(currency) {
   if(currency === 'EUR') {
     return '€';
@@ -30,4 +20,4 @@ function currencyToSym(currency) {
   }
 }
 
-export { formatMoney, diff, currencyToSym };
+export { formatMoney, currencyToSym };

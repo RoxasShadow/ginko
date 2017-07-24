@@ -59,7 +59,12 @@ class FundsController < ApplicationController
       .sum(:amount_cents)
       .map do |currency, amount|
         amount = Money.new(amount, currency)
-          .exchange_to(params[:currency])
+
+        begin
+          amount = amount.exchange_to(params[:currency])
+        rescue SocketError => e
+          Rails.logger.warn "An error occurred while calling your bank: #{e.message}"
+        end
 
         {
           amount: amount.to_f, # `amount` worth of `currency`
