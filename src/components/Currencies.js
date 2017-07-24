@@ -10,8 +10,20 @@ class Currencies extends React.Component {
   constructor() {
     super();
 
+    this.state = {
+      total_amount: 0.0
+    };
+
     fetch('/currencies?currency=EUR').then(response => {
       response.json().then(funds => {
+        let total_amount = funds.map(h => {
+          return h.amount;
+        }).reduce((a, b) => {
+          return a + b;
+        });
+
+        this.setState({ total_amount: total_amount });
+
         funds = funds.map(h => {
           return { label: h.amount_currency, value: h.amount };
         });
@@ -41,6 +53,10 @@ class Currencies extends React.Component {
           </div>
           <div className="panel-body">
             <div id="morris-donut-chart-ws"></div>
+
+            <h3 className="text-center">
+              <span className="label label-default">{formatMoney(this.state.total_amount, 'EUR')}</span>
+            </h3>
           </div>
         </div>
       </div>
