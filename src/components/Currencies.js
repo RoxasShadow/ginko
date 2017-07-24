@@ -20,7 +20,7 @@ class Currencies extends React.Component {
           element: 'morris-donut-chart-ws',
           data: funds,
           formatter: (y, data) => {
-            return formatMoney(y, data.label);
+            return formatMoney(y, 'EUR');
           },
           resize: true
         });

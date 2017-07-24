@@ -91,6 +91,8 @@ GEM
       monetize (~> 1.6.0)
       money (~> 6.8.1)
       railties (>= 3.0)
+    money-uphold-bank (0.0.2)
+      money (~> 6.7)
     nio4r (2.1.0)
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
@@ -179,6 +181,7 @@ DEPENDENCIES
   groupdate
   listen (~> 3.0.5)
   money-rails (~> 1)
+  money-uphold-bank
   pry
   puma (~> 3.0)
   rails (~> 5.0.4)
@@ -189,4 +192,4 @@ DEPENDENCIES
   tzinfo-data
 
 BUNDLED WITH
-   1.14.3
+   1.15.1

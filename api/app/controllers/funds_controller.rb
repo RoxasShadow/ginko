@@ -40,7 +40,7 @@ class FundsController < ApplicationController
     funds = funds.map do |k, v|
       {
         date: "#{year}-#{k}",
-        amount: Money.from_amount(v.sum, params[:currency]).to_f
+        amount: Money.new(v.sum, params[:currency]).to_f
       }
     end
 
@@ -58,15 +58,11 @@ class FundsController < ApplicationController
       .group(:amount_currency)
       .sum(:amount_cents)
       .map do |currency, amount|
-        amount = Money.from_amount(amount, params[:currency]).to_f
-
-        if params[:currency] != currency
-          # convert to params[:currency]
-          amount *= 150.0
-        end
+        amount = Money.new(amount, currency)
+          .exchange_to(params[:currency])
 
         {
-          amount: amount, # `amount` worth of `currency`
+          amount: amount.to_f, # `amount` worth of `currency`
           amount_currency: currency
         }
       end

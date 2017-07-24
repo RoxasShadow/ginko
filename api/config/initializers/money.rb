@@ -2,6 +2,11 @@
 
 Money.infinite_precision = true
 
+require 'money/bank/uphold'
+bank = Money::Bank::Uphold.new
+bank.ttl_in_seconds = 3600
+Money.default_bank = bank
+
 MoneyRails.configure do |config|
 
   # To set the default currency
