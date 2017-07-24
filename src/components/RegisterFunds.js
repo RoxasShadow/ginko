@@ -77,7 +77,7 @@ class RegisterFunds extends React.Component {
         'bank_id': this.state.bank || $('.bankSelector').val(),
         'aligned_at': this.state.startDate,
         'amount_currency': this.state.currency,
-        'amount_cents': this.state.amount * 100
+        'amount_cents': this.state.amount
       }
     };
 

@@ -40,7 +40,7 @@ class FundsController < ApplicationController
     funds = funds.map do |k, v|
       {
         date: "#{year}-#{k}",
-        amount: Money.new(v.sum, params[:currency]).to_f
+        amount: Money.from_amount(v.sum, params[:currency]).to_f
       }
     end
 
@@ -58,7 +58,7 @@ class FundsController < ApplicationController
       .group(:amount_currency)
       .sum(:amount_cents)
       .map do |currency, amount|
-        amount = Money.new(amount, params[:currency]).to_f
+        amount = Money.from_amount(amount, params[:currency]).to_f
 
         if params[:currency] != currency
           # convert to params[:currency]
@@ -88,6 +88,7 @@ class FundsController < ApplicationController
   def create
     bank = Bank.find(fund_params[:bank_id])
     fund = bank.funds.new(fund_params.except(:bank_id))
+    fund.amount = Money.from_amount(fund_params[:amount_cents], fund_params[:amount_currency]).to_money
 
     if fund.save
       render json: fund, status: :created, location: fund

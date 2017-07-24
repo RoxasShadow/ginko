@@ -65,7 +65,7 @@ MoneyRails.configure do |config|
     :name            => "Ethereum",
     :symbol          => "Ξ",
     :subunit         => "Finney",
-    :subunit_to_unit => 1000,
+    :subunit_to_unit => 100,
     :separator       => ".",
     :delimiter       => ","
   }
