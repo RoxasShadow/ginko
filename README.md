@@ -25,6 +25,8 @@ Setup
   To add a `Bank`, enter the console via `$ bundle exec rails c` and type
   something like `Bank.create!(name: 'My Bank')`.
 
+  If you want some fake data, run instead `$ bundle exec rake db:seed`.
+
 - Frontend
 
   ```sh
