@@ -16,7 +16,7 @@ class Currencies extends React.Component {
 
     fetch('/currencies?currency=EUR').then(response => {
       response.json().then(funds => {
-        let total_amount = funds.map(h => {
+        const total_amount = funds.map(h => {
           return h.amount;
         }).reduce((a, b) => {
           return a + b;
