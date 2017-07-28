@@ -18,7 +18,7 @@ class HistoryEntry extends React.Component {
       const diff = e.previous_amount - e.amount;
       return(
         <span title={formatMoney(diff, 'EUR')}>
-          (- ${formatMoney(diff, e.amount_currency)})
+          (- {formatMoney(diff, e.amount_currency)})
         </span>
       );
     }
