@@ -13,6 +13,11 @@ Technical details
 Setup
 -----
 
+- Prerequisites
+  - Node.js v6 ([nvm](https://github.com/creationix/nvm))
+  - [Yarn](https://yarnpkg.com/)
+  - Ruby ([rvm](https://rvm.io/))
+
 - Backend
 
   ```sh
@@ -38,7 +43,9 @@ Setup
 TODOs
 -----
 
+- Move currency form (i.e.: move €200 worth of ETH from UniCredit to CryptoWallet)
 - Create bank from the frontend
+- Delete funds created by mistake
 - Better UX for registering funds
 - Budgets
 - ecc.
