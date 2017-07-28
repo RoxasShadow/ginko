@@ -10,10 +10,7 @@
     "react-datepicker": "^0.48.0",
     "react-moment": "^0.4.2",
     "react-currency-input": "https://github.com/tncalvert/react-currency-input#selection_changes",
-    "react-router-dom": "^4.1.1",
-    "morris-js-module": "^1.2.1",
-    "jquery": "^3.2.1",
-    "raphael": "^2.2.7"
+    "react-router-dom": "^4.1.1"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,12 +1,8 @@
 import React from 'react';
-import $ from 'jquery';
-import makeMorris from 'morris-js-module';
 
 import CurrencySelector from './CurrencySelector';
 import './CurrencySelector.css';
 import { formatMoney } from '../utils';
-
-var Morris = makeMorris($);
 
 class Funds extends React.Component {
   constructor() {
@@ -39,7 +35,7 @@ class Funds extends React.Component {
         if(window.funds_donut) {
           window.funds_donut.setData(funds);
         } else {
-          window.funds_donut = Morris.Donut({
+          window.funds_donut = window.Morris.Donut({
             element: 'morris-donut-chart',
             data: funds,
             formatter: (y, data) => {

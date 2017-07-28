@@ -1,12 +1,7 @@
 import React from 'react';
-import $ from 'jquery';
-import makeMorris from 'morris-js-module';
-
 import CurrencySelector from './CurrencySelector';
 import './CurrencySelector.css';
 import { formatMoney } from '../utils';
-
-const Morris = makeMorris($);
 
 class Trend extends React.Component {
   constructor() {
@@ -35,7 +30,7 @@ class Trend extends React.Component {
         if(window.trend_chart) {
           window.trend_chart.setData(trend);
         } else {
-          window.trend_chart = Morris.Line({
+          window.trend_chart = window.Morris.Line({
             element: 'morris-area-chart',
             data: trend,
             xkey: 'date',
