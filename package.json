@@ -2,6 +2,8 @@
   "name": "ginko",
   "version": "0.1.0",
   "private": true,
+  "main": "main.js",
+  "homepage": ".",
   "dependencies": {
     "react": "^15.6.1",
     "react-dom": "^15.6.1",

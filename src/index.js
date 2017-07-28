@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 
 import Menu from './components/Menu';
 import Trend from './components/Trend';
@@ -55,9 +55,9 @@ const App = () => (
 );
 
 ReactDOM.render((
-  <BrowserRouter>
+  <HashRouter>
     <App />
-  </BrowserRouter>
+  </HashRouter>
 ), document.getElementById('app'));
 
 ReactDOM.render(<RegisterFunds />, document.getElementById('register-funds'));
