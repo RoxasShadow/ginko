@@ -21,7 +21,7 @@ class RegisterFunds extends React.Component {
     this.state = {
       startDate: moment(),
       precision: 2,
-      amount: '0.00',
+      amount: 0.00,
       currency: 'EUR',
       bank: '',
       banks: []
