@@ -26,7 +26,9 @@ class Funds extends React.Component {
   drawDonut() {
     fetch(`/funds?currency=${this.state.currency}`).then(response => {
       response.json().then(funds => {
-        funds = funds.map(h => {
+        funds = funds.filter((h) => {
+          return h.amount > 0.0;
+        }).map(h => {
           return { label: h.bank_name, value: h.amount };
         });
 
