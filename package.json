@@ -4,6 +4,10 @@
   "private": true,
   "main": "main.js",
   "homepage": ".",
+  "author": "RoxasShadow <webmaster@giovannicapuano.net>",
+  "repository": "https://github.com/RoxasShadow/ginko",
+  "license": "BSD-2-Clause",
+  "description": "An overview of your wallets",
   "dependencies": {
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
@@ -19,7 +23,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "dist": "./node_modules/.bin/electron-builder"
+    "dist": "./node_modules/.bin/electron-builder",
+    "dist-apk": "./node_modules/.bin/electron-builder --linux apk"
   },
   "devDependencies": {
     "electron-builder": "^19.17.0"
