@@ -40,6 +40,8 @@ Setup
   $ cd .. && yarn start
   ```
 
+Run `$ yarn build` to get static files.
+
 Run `$ yarn dist` to build an executable with [electron](https://electron.atom.io/).
 
 TODOs
