@@ -5,9 +5,8 @@
 Technical details
 -----------------
 
-- There are no users, groups or any kind of authentication
-- This is not supposed to be exposed to the internet
-- The frontend is based on Bootstrap and React, the backend on Ruby on Rails 5 backed by SQLite3
+- There are no users, groups or any kind of authentication as this is not supposed to be exposed over the internet
+- The frontend is based on Bootstrap and React.js, the backend on Ruby on Rails 5 backed by SQLite3
 - Digits are stored as cents in big decimal database columns with precision set to 8 digits
 
 Setup
@@ -40,9 +39,8 @@ Setup
   $ cd .. && yarn start
   ```
 
-Run `$ yarn build` to get static files.
-
-Run `$ yarn dist` to build an executable with [electron](https://electron.atom.io/).
+If you want to use ginko standalone, run `$ yarn build` to generate the static HTML/CSS/JS files
+and then `$ yarn dist` to build an executable for your machine thanks to [electron](https://electron.atom.io/).
 
 TODOs
 -----
