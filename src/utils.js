@@ -20,8 +20,13 @@ function currencyToSym(currency) {
   }
 }
 
-function fetch(p) {
-  return window.fetch(`http://localhost:4567${p}`);
+function fetch(p, o) {
+  if(o === undefined) {
+    return window.fetch(`http://localhost:4567${p}`);
+  }
+  else {
+    return window.fetch(`http://localhost:4567${p}`, o);
+  }
 }
 
 export { formatMoney, currencyToSym, fetch };
