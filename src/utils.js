@@ -20,4 +20,8 @@ function currencyToSym(currency) {
   }
 }
 
-export { formatMoney, currencyToSym };
+function fetch(p) {
+  return window.fetch(`http://localhost:4567${p}`);
+}
+
+export { formatMoney, currencyToSym, fetch };

@@ -1,6 +1,5 @@
 import React from 'react';
 import moment from 'moment';
-import $ from 'jquery';
 import {
   Form,
   FormGroup,
@@ -12,7 +11,7 @@ import CurrencyInput from 'react-currency-input';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { currencyToSym } from '../utils';
+import { currencyToSym, fetch } from '../utils';
 
 class RegisterFunds extends React.Component {
   constructor() {
@@ -74,7 +73,7 @@ class RegisterFunds extends React.Component {
 
     const payload = {
       fund: {
-        'bank_id': this.state.bank || $('.bankSelector').val(),
+        'bank_id': this.state.bank || document.getElementsByClassName('bankSelector')[0].value,
         'aligned_at': this.state.startDate,
         'amount_currency': this.state.currency,
         'amount_cents': this.state.amount

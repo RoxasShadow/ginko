@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { formatMoney } from '../utils';
+import { formatMoney, fetch } from '../utils';
 
 class Currencies extends React.Component {
   constructor() {

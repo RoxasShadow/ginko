@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-import { formatMoney } from '../utils';
+import { formatMoney, fetch } from '../utils';
 
 class HistoryEntry extends React.Component {
   diff(e) {

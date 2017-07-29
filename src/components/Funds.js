@@ -2,7 +2,7 @@ import React from 'react';
 
 import CurrencySelector from './CurrencySelector';
 import './CurrencySelector.css';
-import { formatMoney } from '../utils';
+import { formatMoney, fetch } from '../utils';
 
 class Funds extends React.Component {
   constructor() {
