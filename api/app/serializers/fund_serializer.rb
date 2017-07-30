@@ -1,5 +1,6 @@
 class FundSerializer < ActiveModel::Serializer
-  attributes :bank_name, :aligned_at, :amount, :amount_eur, :amount_currency, :previous_amount, :previous_amount_eur
+  attributes :bank_name, :aligned_at, :amount, :amount_eur, :amount_currency,
+    :previous_amount, :previous_amount_eur, :worth
 
   def aligned_at
     object.aligned_at.strftime('%FT%T%:z')
@@ -24,26 +25,21 @@ class FundSerializer < ActiveModel::Serializer
   end
 
   def previous_amount
-    return @_previous_amount if @_previous_amount
-
-    fund = Fund.where('bank_id = ? AND amount_currency = ? AND aligned_at < ? AND id != ?',
-                      object.bank_id, object.amount_currency, object.aligned_at, object.id)
-      .order(aligned_at: :asc)
-      .last
-
-    if fund
-      @_previous_amount = fund.amount.to_f
-    end
+    @_previous_amount ||= object.previous.amount.to_f if object.previous
   end
 
   def previous_amount_eur
     return if object.amount_currency == 'EUR'
-    return unless previous_amount
+    return unless object.previous
 
     begin
-      Money.from_amount(previous_amount, object.amount_currency).exchange_to('EUR').to_f
+      object.previous.amount.exchange_to('EUR').to_f
     rescue SocketError => e
       Rails.logger.warn "An error occurred while calling your bank: #{e.message}"
     end
+  end
+
+  def worth
+    object.worth.to_f unless object.worth.zero?
   end
 end

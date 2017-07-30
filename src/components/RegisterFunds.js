@@ -11,6 +11,7 @@ import CurrencyInput from 'react-currency-input';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
+import './RegisterFunds.css';
 import { currencyToSym, fetch } from '../utils';
 
 class RegisterFunds extends React.Component {
@@ -21,13 +22,15 @@ class RegisterFunds extends React.Component {
       startDate: moment(),
       precision: 2,
       amount: 0.00,
+      worth: 0.00,
       currency: 'EUR',
       bank: '',
       banks: []
     };
 
     this.handleDateChange     = this.handleDateChange.bind(this);
-    this.handleFundsChange    = this.handleFundsChange.bind(this);
+    this.handleAmountChange   = this.handleAmountChange.bind(this);
+    this.handleWorthChange    = this.handleWorthChange.bind(this);
     this.handleCurrencyChange = this.handleCurrencyChange.bind(this);
     this.handleBankChange     = this.handleBankChange.bind(this);
     this.handleSubmit         = this.handleSubmit.bind(this);
@@ -41,9 +44,15 @@ class RegisterFunds extends React.Component {
     });
   }
 
-  handleFundsChange(event, maskedValue, floatValue) {
+  handleAmountChange(event, maskedValue, floatValue) {
     this.setState({
-      amount: floatValue
+      amount: floatValue,
+    });
+  }
+
+  handleWorthChange(event, maskedValue, floatValue) {
+    this.setState({
+      worth: floatValue,
     });
   }
 
@@ -76,7 +85,8 @@ class RegisterFunds extends React.Component {
         'bank_id': this.state.bank || document.getElementsByClassName('bankSelector')[0].value,
         'aligned_at': this.state.startDate,
         'amount_currency': this.state.currency,
-        'amount_cents': this.state.amount
+        'amount_cents': this.state.amount,
+        'worth_cents': this.state.worth
       }
     };
 
@@ -98,7 +108,7 @@ class RegisterFunds extends React.Component {
     return(
       <Form inline onSubmit={this.handleSubmit}>
         <FormGroup>
-          <InputGroup>
+          <InputGroup className="startDate">
             <InputGroup.Addon><i className="fa fa-calendar"></i></InputGroup.Addon>
             <DatePicker dateFormat='DD/MM/YYYY' maxDate={moment()} selected={this.state.startDate} onChange={this.handleDateChange} className='form-control' />
           </InputGroup>
@@ -125,8 +135,15 @@ class RegisterFunds extends React.Component {
           {' '}
           <InputGroup>
             <InputGroup.Addon><b>{currencyToSym(this.state.currency)}</b></InputGroup.Addon>
-            <CurrencyInput decimalSeparator=',' thousandSeparator='.' precision={this.state.precision} value={this.state.amount} onChangeEvent={this.handleFundsChange} className='form-control' />
+            <CurrencyInput decimalSeparator=',' thousandSeparator='.' precision={this.state.precision} value={this.state.amount} onChangeEvent={this.handleAmountChange} className='form-control' />
           </InputGroup>
+          {' '}
+          {this.state.currency !== 'EUR' && (
+            <InputGroup title='Worth of'>
+              <InputGroup.Addon><b>{currencyToSym('EUR')}</b></InputGroup.Addon>
+              <CurrencyInput decimalSeparator=',' thousandSeparator='.' precision={2} value={this.state.worth} onChangeEvent={this.handleWorthChange} className='form-control' />
+            </InputGroup>
+          )}
         </FormGroup>
         {' '}
         <Button type="submit">Register funds</Button>

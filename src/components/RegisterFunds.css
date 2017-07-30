@@ -1,0 +1,9 @@
+.startDate {
+  margin-top: 4px;
+}
+
+.startDate span {
+  display: inline-block;
+  margin-top: -27px;
+  line-height: 20px;
+}

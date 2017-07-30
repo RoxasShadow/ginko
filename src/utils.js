@@ -1,3 +1,21 @@
+function  diffAmounts(previousAmount, amount, currency) {
+  if(previousAmount === null || amount === previousAmount) {
+    return '';
+  }
+
+  const render = function(symbol, diff, currency) {
+    return `${symbol} ${formatMoney(diff, currency)}`;
+  };
+
+  if(amount > previousAmount) {
+    const diff = amount - previousAmount;
+    return render('+', diff, currency);
+  } else if(amount < previousAmount) {
+    const diff = previousAmount - amount;
+    return render('-', diff, currency);
+  }
+}
+
 function formatMoney(v, c) {
   const precision = c === 'EUR' ? 2 : 8;
 
@@ -29,4 +47,4 @@ function fetch(p, o) {
   }
 }
 
-export { formatMoney, currencyToSym, fetch };
+export { diffAmounts, formatMoney, currencyToSym, fetch };

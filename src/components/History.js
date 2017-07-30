@@ -1,39 +1,31 @@
 import React from 'react';
 import moment from 'moment';
 
-import { formatMoney, fetch } from '../utils';
+import { diffAmounts, formatMoney, fetch } from '../utils';
 
 class HistoryEntry extends React.Component {
-  diff(e) {
-    if(e.previous_amount === null || e.amount === e.previous_amount) {
-      return '';
-    } else if(e.amount > e.previous_amount) {
-      const diff = e.amount - e.previous_amount;
-      return(
-        <span title={formatMoney(diff, 'EUR')}>
-          (+ {formatMoney(diff, e.amount_currency)})
-        </span>
-      );
-    } else if(e.amount < e.previous_amount) {
-      const diff = e.previous_amount - e.amount;
-      return(
-        <span title={formatMoney(diff, 'EUR')}>
-          (- {formatMoney(diff, e.amount_currency)})
-        </span>
-      );
-    }
-  }
-
   render() {
     const e = this.props.e;
     const date = moment(e.aligned_at);
+
+    let diff = diffAmounts(e.previous_amount, e.amount, e.amount_currency);
+    if(diff !== '') {
+      diff = (
+        <span title={diffAmounts(e.previous_amount_eur, e.amount_eur, 'EUR')}>
+          ({diff})
+        </span>
+      );
+    }
 
     return(
       <tr>
         <td>{date.format('DD/MM/YY, H:mm')} ({date.fromNow()})</td>
         <td>{e.bank_name}</td>
         <td title={formatMoney(e.amount_eur, 'EUR')}>
-          {formatMoney(e.amount, e.amount_currency)} {this.diff(e)}
+          {formatMoney(e.amount, e.amount_currency)} {diff}
+          {e.worth &&
+            ' –> paid ' + formatMoney(e.worth, 'EUR')
+          }
         </td>
       </tr>
     );

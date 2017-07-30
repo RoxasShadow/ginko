@@ -54,9 +54,10 @@ class FundsController < ApplicationController
       .having('aligned_at = MAX(aligned_at)')
       .select(:id)
 
-    funds = Fund.where(id: fund_ids)
-      .group(:amount_currency)
-      .sum(:amount_cents)
+    funds = Fund.where(id: fund_ids).group(:amount_currency)
+
+    initial_funds = funds.sum(:worth_cents)
+    funds = funds.sum(:amount_cents)
       .map do |currency, amount|
         amount = Money.new(amount, currency)
 
@@ -66,9 +67,13 @@ class FundsController < ApplicationController
           Rails.logger.warn "An error occurred while calling your bank: #{e.message}"
         end
 
+        initial_amount = initial_funds[currency] > 0.0 ?
+          Money.new(initial_funds[currency], 'EUR') : amount
+
         {
           amount: amount.to_f, # `amount` worth of `currency`
-          amount_currency: currency
+          amount_currency: currency,
+          initial_amount: initial_amount.to_f
         }
       end
 
@@ -90,6 +95,7 @@ class FundsController < ApplicationController
     bank = Bank.find(fund_params[:bank_id])
     fund = bank.funds.new(fund_params.except(:bank_id))
     fund.amount = Money.from_amount(fund_params[:amount_cents], fund_params[:amount_currency]).to_money
+    fund.worth = Money.from_amount(fund_params[:worth_cents], 'EUR').to_money
 
     if fund.save
       render json: fund, status: :created, location: fund
@@ -101,6 +107,6 @@ class FundsController < ApplicationController
   private
 
   def fund_params
-    params.require(:fund).permit(:aligned_at, :amount_currency, :amount_cents, :bank_id)
+    params.require(:fund).permit(:aligned_at, :amount_currency, :amount_cents, :worth_cents, :bank_id)
   end
 end

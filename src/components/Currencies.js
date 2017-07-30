@@ -1,24 +1,34 @@
 import React from 'react';
 
-import { formatMoney, fetch } from '../utils';
+import { diffAmounts, formatMoney, fetch } from '../utils';
 
 class Currencies extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      total_amount: 0.0
+      totalAmount: 0.0,
+      initialAmount: 0.0
     };
 
     fetch('/currencies?currency=EUR').then(response => {
       response.json().then(funds => {
-        const total_amount = funds.map(h => {
+        const initialAmount = funds.map(h => {
+          return h.initial_amount;
+        }).reduce((a, b) => {
+          return a + b;
+        });
+
+        const totalAmount = funds.map(h => {
           return h.amount;
         }).reduce((a, b) => {
           return a + b;
         });
 
-        this.setState({ total_amount: total_amount });
+        this.setState({
+          totalAmount: totalAmount,
+          initialAmount: initialAmount
+        });
 
         funds = funds.map(h => {
           return { label: h.amount_currency, value: h.amount };
@@ -37,6 +47,9 @@ class Currencies extends React.Component {
   }
 
   render() {
+    const diff = diffAmounts(this.state.initialAmount, this.state.totalAmount, 'EUR');
+    const initialAmount = `Initial amount: ${formatMoney(this.state.initialAmount, 'EUR')} (${diff})`;
+
     return(
       <div className="col-lg-6">
         <div className="panel panel-default">
@@ -51,7 +64,9 @@ class Currencies extends React.Component {
             <div id="morris-donut-chart-ws"></div>
 
             <h3 className="text-center">
-              <span className="label label-default">{formatMoney(this.state.total_amount, 'EUR')}</span>
+              <span className="label label-default" title={initialAmount}>
+                {formatMoney(this.state.totalAmount, 'EUR')}
+              </span>
             </h3>
           </div>
         </div>

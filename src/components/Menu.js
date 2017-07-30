@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import './Menu.css';
+
 class MenuLink extends React.Component {
   render() {
     return(
@@ -21,7 +23,11 @@ class Menu extends React.Component {
 
         <div className="nav navbar-right top-nav">
           <div className="navbar-header">
-            <div className="navbar-brand" id="register-funds"></div>
+            <div className="row">
+              <div className="col-lg-12">
+                <div id="register-funds"></div>
+              </div>
+            </div>
           </div>
         </div>
 

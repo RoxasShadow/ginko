@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170709163526) do
+ActiveRecord::Schema.define(version: 20170729140759) do
 
   create_table "banks", force: :cascade do |t|
     t.string   "name",                    null: false
@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(version: 20170709163526) do
     t.string   "amount_currency", default: "EUR", null: false
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.integer  "worth_cents",     default: 0,     null: false
+    t.string   "worth_currency",  default: "EUR", null: false
     t.index ["aligned_at"], name: "index_funds_on_aligned_at"
     t.index ["bank_id"], name: "index_funds_on_bank_id"
   end
