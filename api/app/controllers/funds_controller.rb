@@ -26,9 +26,9 @@ class FundsController < ApplicationController
       # for each bank, get the funds to it belonging registered in this year.
       # from these records, get the most recent one in relation to the month
       # that we are now iterating
-      Bank.all.map do |bank|
+      Bank.pluck(:id).each do |bank_id|
         funds[m].concat Fund.group(:bank_id)
-          .where(bank_id: bank.id)
+          .where(bank_id: bank_id)
           .where(amount_currency: params[:currency])
           .where("strftime('%Y', aligned_at) = ?", year)
           .where("CAST(strftime('%m', aligned_at) AS INTEGER) <= ?", m)
@@ -49,33 +49,35 @@ class FundsController < ApplicationController
 
   # GET /currencies
   def currencies
-    fund_ids = Fund.includes(:bank)
-      .group(:bank_id)
-      .having('aligned_at = MAX(aligned_at)')
-      .select(:id)
+    results = Bank.pluck(:id).map do |bank_id|
+      Fund.group(:amount_currency)
+        .where(bank_id: bank_id)
+        .having('aligned_at = MAX(aligned_at)')
+        .select('amount_currency, amount_cents, worth_cents')
+    end
 
-    funds = Fund.where(id: fund_ids).group(:amount_currency)
+    results = results.flatten.group_by { |k| k.amount_currency }
 
-    initial_funds = funds.sum(:worth_cents)
-    funds = funds.sum(:amount_cents)
-      .map do |currency, amount|
-        amount = Money.new(amount, currency)
+    funds = []
+    results.each do |currency, records|
+      amount = records.sum(&:amount_cents)
+      amount = Money.new(amount, currency)
 
-        begin
-          amount = amount.exchange_to(params[:currency])
-        rescue SocketError => e
-          Rails.logger.warn "An error occurred while calling your bank: #{e.message}"
-        end
-
-        initial_amount = initial_funds[currency] > 0.0 ?
-          Money.new(initial_funds[currency], 'EUR') : amount
-
-        {
-          amount: amount.to_f, # `amount` worth of `currency`
-          amount_currency: currency,
-          initial_amount: initial_amount.to_f
-        }
+      begin
+        amount = amount.exchange_to(params[:currency])
+      rescue SocketError => e
+        Rails.logger.warn "An error occurred while calling your bank: #{e.message}"
       end
+
+      initial_amount = records.sum(&:worth_cents)
+      initial_amount = initial_amount.zero? ? amount : Money.new(initial_amount, 'EUR')
+
+      funds << {
+        amount: amount.to_f, # `amount` worth of `currency`
+        amount_currency: currency,
+        initial_amount: initial_amount.to_f
+      }
+    end
 
     render json: funds
   end
