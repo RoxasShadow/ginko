@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-import { diffAmounts, formatMoney, fetch } from '../utils';
+import { diffAmounts, formatMoney, currencyToSym, fetch } from '../utils';
 
 class HistoryEntry extends React.Component {
   render() {
@@ -17,15 +17,21 @@ class HistoryEntry extends React.Component {
       );
     }
 
+    const paid = e.worth ? (
+      <span title={' (' + formatMoney(e.worth / e.amount, 'EUR') + '/' + currencyToSym(e.amount_currency) + ')'}>
+        {'  –> paid ' + formatMoney(e.worth, 'EUR')}
+      </span>
+    ) : null;
+
     return(
       <tr>
         <td>{date.format('DD/MM/YY, H:mm')} ({date.fromNow()})</td>
         <td>{e.bank_name}</td>
-        <td title={formatMoney(e.amount_eur, 'EUR')}>
-          {formatMoney(e.amount, e.amount_currency)} {diff}
-          {e.worth &&
-            ' –> paid ' + formatMoney(e.worth, 'EUR')
-          }
+        <td>
+          <span title={formatMoney(e.amount_eur, 'EUR')}>
+            {formatMoney(e.amount, e.amount_currency)} {diff}
+          </span>
+          {paid}
         </td>
       </tr>
     );
