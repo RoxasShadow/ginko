@@ -49,11 +49,16 @@ class FundsController < ApplicationController
 
   # GET /currencies
   def currencies
+    query = Fund.group(:amount_currency)
+      .having('aligned_at = MAX(aligned_at)')
+      .select('amount_currency, amount_cents, worth_cents')
+
+    if params[:currency].present?
+      query = query.where(amount_currency: params[:currency])
+    end
+
     results = Bank.pluck(:id).map do |bank_id|
-      Fund.group(:amount_currency)
-        .where(bank_id: bank_id)
-        .having('aligned_at = MAX(aligned_at)')
-        .select('amount_currency, amount_cents, worth_cents')
+      query.where(bank_id: bank_id)
     end
 
     results = results.flatten.group_by { |k| k.amount_currency }
@@ -63,10 +68,12 @@ class FundsController < ApplicationController
       amount = records.sum(&:amount_cents)
       amount = Money.new(amount, currency)
 
-      begin
-        amount = amount.exchange_to(params[:currency])
-      rescue SocketError => e
-        Rails.logger.warn "An error occurred while calling your bank: #{e.message}"
+      if params[:to_currency].present?
+        begin
+          amount = amount.exchange_to(params[:to_currency])
+        rescue SocketError => e
+          Rails.logger.warn "An error occurred while calling your bank: #{e.message}"
+        end
       end
 
       initial_amount = records.sum(&:worth_cents)

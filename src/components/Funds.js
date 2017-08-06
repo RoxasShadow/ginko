@@ -5,26 +5,14 @@ import './CurrencySelector.css';
 import { formatMoney, fetch } from '../utils';
 
 class Funds extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      currency: 'EUR'
-    };
-  }
-
   componentDidMount() {
     window.funds_donut = null;
 
-    this.drawDonut();
+    this.draw('BTC');
   }
 
-  componentDidUpdate() {
-    this.drawDonut();
-  }
-
-  drawDonut() {
-    fetch(`/funds?currency=${this.state.currency}`).then(response => {
+  draw(currency) {
+    fetch(`/funds?currency=${currency}`).then(response => {
       response.json().then(funds => {
         funds = funds.filter((h) => {
           return h.amount > 0.0;
@@ -41,7 +29,7 @@ class Funds extends React.Component {
             element: 'morris-donut-chart',
             data: funds,
             formatter: (y, data) => {
-              return formatMoney(y, this.state.currency);
+              return formatMoney(y, currency);
             },
             resize: true
           });
@@ -61,9 +49,9 @@ class Funds extends React.Component {
 
             <div className="panel-title pull-right">
               <div className="btn-group">
-                <CurrencySelector parent={this} currency='EUR' />
-                <CurrencySelector parent={this} currency='BTC' />
-                <CurrencySelector parent={this} currency='ETH' />
+                <CurrencySelector
+                  parent={this}
+                  currencies={['EUR', 'BTC', 'ETH']} />
               </div>
             </div>
 

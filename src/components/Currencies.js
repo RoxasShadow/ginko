@@ -1,5 +1,7 @@
 import React from 'react';
 
+import CurrencySelector from './CurrencySelector';
+import './CurrencySelector.css';
 import { diffAmounts, formatMoney, fetch } from '../utils';
 
 class Currencies extends React.Component {
@@ -10,8 +12,18 @@ class Currencies extends React.Component {
       totalAmount: 0.0,
       initialAmount: 0.0
     };
+  }
 
-    fetch('/currencies?currency=EUR').then(response => {
+  componentDidMount() {
+    window.currencies_donut = null;
+
+    this.draw('ALL');
+  }
+
+  draw(currency) {
+    let currencyParam = currency === 'ALL' ? '' : `&currency=${currency}`;
+
+    fetch(`/currencies?to_currency=EUR${currencyParam}`).then(response => {
       response.json().then(funds => {
         const initialAmount = funds.map(h => {
           return h.initial_amount;
@@ -34,14 +46,20 @@ class Currencies extends React.Component {
           return { label: h.amount_currency, value: h.amount };
         });
 
-        window.Morris.Donut({
-          element: 'morris-donut-chart-ws',
-          data: funds,
-          formatter: (y, data) => {
-            return formatMoney(y, 'EUR');
-          },
-          resize: true
-        });
+        // this is a clear hack as I'm not able to
+        // memoize the chart object to the props
+        if(window.currencies_donut) {
+          window.currencies_donut.setData(funds);
+        } else {
+          window.currencies_donut = window.Morris.Donut({
+            element: 'morris-donut-chart-ws',
+            data: funds,
+            formatter: (y, data) => {
+              return formatMoney(y, 'EUR');
+            },
+            resize: true
+          });
+        }
       });
     });
   }
@@ -56,6 +74,14 @@ class Currencies extends React.Component {
           <div className="panel-heading">
             <div className="panel-title pull-left">
               <h3 className="panel-title"><i className="fa fa-money fa-fw"></i> Currencies</h3>
+            </div>
+
+            <div className="panel-title pull-right">
+              <div className="btn-group">
+                <CurrencySelector
+                  parent={this}
+                  currencies={['ALL', 'EUR', 'BTC', 'ETH']} />
+              </div>
             </div>
 
             <div className="clearfix"></div>

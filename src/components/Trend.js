@@ -4,26 +4,14 @@ import './CurrencySelector.css';
 import { formatMoney, fetch } from '../utils';
 
 class Trend extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      currency: 'EUR'
-    };
-  }
-
   componentDidMount() {
     window.trend_chart = null;
 
-    this.drawChart();
+    this.draw('BTC');
   }
 
-  componentDidUpdate() {
-    this.drawChart();
-  }
-
-  drawChart() {
-    fetch(`/trend?currency=${this.state.currency}`).then(response => {
+  draw(currency) {
+    fetch(`/trend?currency=${currency}`).then(response => {
       return response.json().then(trend => {
         // this is a clear hack as I'm not able to
         // memoize the chart object to the props
@@ -39,7 +27,7 @@ class Trend extends React.Component {
             pointsize: 2,
             hidehover: 'auto',
             resize: true,
-            yLabelFormat: (v) => { return formatMoney(v, this.state.currency); }
+            yLabelFormat: (v) => { return formatMoney(v, currency); }
           });
         }
       });
@@ -57,9 +45,9 @@ class Trend extends React.Component {
 
             <div className="panel-title pull-right">
               <div className="btn-group">
-                <CurrencySelector parent={this} currency='EUR' />
-                <CurrencySelector parent={this} currency='BTC' />
-                <CurrencySelector parent={this} currency='ETH' />
+                <CurrencySelector
+                  parent={this}
+                  currencies={['EUR', 'BTC', 'ETH']} />
               </div>
             </div>
 
