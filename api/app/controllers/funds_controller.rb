@@ -96,8 +96,20 @@ class FundsController < ApplicationController
   def create
     bank = Bank.find(fund_params[:bank_id])
     fund = bank.funds.new(fund_params.except(:bank_id))
+
     fund.amount = Money.from_amount(fund_params[:amount_cents], fund_params[:amount_currency]).to_money
-    fund.worth = Money.from_amount(fund_params[:worth_cents], 'EUR').to_money
+    fund.worth  = Money.from_amount(fund_params[:worth_cents], 'EUR').to_money
+
+    if fund.previous.present?
+      case params[:mode]
+      when 'add'
+        fund.amount += fund.previous.amount
+        fund.worth  += fund.previous.worth
+      when 'sub'
+        fund.amount = fund.previous.amount - fund.amount
+        fund.worth  = fund.previous.worth  - fund.worth
+      end
+    end
 
     if fund.save
       render json: fund, status: :created, location: fund

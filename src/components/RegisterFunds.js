@@ -99,7 +99,8 @@ class RegisterFunds extends React.Component {
       }
     };
 
-    fetch('/funds', opts).then(response => {
+    const mode = document.getElementsByClassName('active')[0].children[0].value;
+    fetch(`/funds?mode=${mode}`, opts).then(response => {
       window.location.reload(false);
     });
   }
@@ -144,6 +145,20 @@ class RegisterFunds extends React.Component {
               <CurrencyInput decimalSeparator=',' thousandSeparator='.' precision={2} value={this.state.worth} onChangeEvent={this.handleWorthChange} className='form-control' />
             </InputGroup>
           )}
+          {' '}
+          <div className="btn-group" data-toggle="buttons">
+            <label className="btn btn-primary">
+              <input type="radio" name="options" value="sub" />Sub
+            </label>
+
+            <label className="btn btn-primary active">
+              <input type="radio" name="options" value="set" defaultChecked />Set
+            </label>
+
+            <label className="btn btn-primary">
+              <input type="radio" name="options" value="add" />Add
+            </label>
+          </div>
         </FormGroup>
         {' '}
         <Button type="submit">Register funds</Button>
