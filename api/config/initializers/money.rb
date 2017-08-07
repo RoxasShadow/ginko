@@ -4,7 +4,7 @@ Money.infinite_precision = true
 
 require 'money/bank/coin_market_cap'
 bank = Money::Bank::CoinMarketCap.new
-bank.ttl_in_seconds = 2.minutes.to_i
+bank.ttl_in_seconds = 10.minutes.to_i
 
 Money.default_bank = bank
 
