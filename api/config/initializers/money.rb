@@ -2,9 +2,10 @@
 
 Money.infinite_precision = true
 
-require 'money/bank/uphold'
-bank = Money::Bank::Uphold.new
-bank.ttl_in_seconds = 3600
+require 'money/bank/coin_market_cap'
+bank = Money::Bank::CoinMarketCap.new
+bank.ttl_in_seconds = 2.minutes.to_i
+
 Money.default_bank = bank
 
 MoneyRails.configure do |config|
