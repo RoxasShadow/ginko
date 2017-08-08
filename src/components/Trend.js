@@ -7,11 +7,13 @@ class Trend extends React.Component {
   componentDidMount() {
     window.trend_chart = null;
 
-    this.draw('BTC');
+    this.draw('EUR');
   }
 
   draw(currency) {
-    fetch(`/trend?currency=${currency}`).then(response => {
+    this.currency = currency;
+
+    fetch(`/trend?currency=${this.currency}`).then(response => {
       return response.json().then(trend => {
         // this is a clear hack as I'm not able to
         // memoize the chart object to the props
@@ -27,7 +29,7 @@ class Trend extends React.Component {
             pointsize: 2,
             hidehover: 'auto',
             resize: true,
-            yLabelFormat: (v) => { return formatMoney(v, currency); }
+            yLabelFormat: (v) => { return formatMoney(v, this.currency); }
           });
         }
       });

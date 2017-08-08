@@ -8,11 +8,13 @@ class Funds extends React.Component {
   componentDidMount() {
     window.funds_donut = null;
 
-    this.draw('BTC');
+    this.draw('EUR');
   }
 
   draw(currency) {
-    fetch(`/funds?currency=${currency}`).then(response => {
+    this.currency = currency;
+
+    fetch(`/funds?currency=${this.currency}`).then(response => {
       response.json().then(funds => {
         funds = funds.filter((h) => {
           return h.amount > 0.0;
@@ -28,9 +30,7 @@ class Funds extends React.Component {
           window.funds_donut = window.Morris.Donut({
             element: 'morris-donut-chart',
             data: funds,
-            formatter: (y, data) => {
-              return formatMoney(y, currency);
-            },
+            formatter: (v) => { return formatMoney(v, this.currency); },
             resize: true
           });
         }

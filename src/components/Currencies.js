@@ -54,9 +54,7 @@ class Currencies extends React.Component {
           window.currencies_donut = window.Morris.Donut({
             element: 'morris-donut-chart-ws',
             data: funds,
-            formatter: (y, data) => {
-              return formatMoney(y, 'EUR');
-            },
+            formatter: (y, data) => { return formatMoney(y, 'EUR'); },
             resize: true
           });
         }
