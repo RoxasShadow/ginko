@@ -2,12 +2,6 @@
 
 Money.infinite_precision = true
 
-require 'money/bank/coin_market_cap'
-bank = Money::Bank::CoinMarketCap.new
-bank.ttl_in_seconds = 10.minutes.to_i
-
-Money.default_bank = bank
-
 MoneyRails.configure do |config|
 
   # To set the default currency
@@ -74,7 +68,7 @@ MoneyRails.configure do |config|
     :subunit_to_unit => 100,
     :separator       => ".",
     :delimiter       => ","
-  }
+}
 
   # Specify a rounding mode
   # Any one of:
@@ -108,3 +102,25 @@ MoneyRails.configure do |config|
   # Example:
   # config.raise_error_on_money_parsing = false
 end
+
+require 'money/bank/coin_market_cap'
+bank = Money::Bank::CoinMarketCap.new
+bank.ttl_in_seconds = 10.minutes.to_i
+
+bank.update_rates
+bank.currencies_list.uniq.each do |s|
+  next if Money::Currency.find(s).present?
+
+  Money::Currency.register({
+    :priority        => 1,
+    :iso_code        => s,
+    :name            => s,
+    :symbol          => s,
+    :subunit         => "Finney",
+    :subunit_to_unit => 100,
+    :separator       => ".",
+    :delimiter       => ","
+  })
+end
+
+Money.default_bank = bank

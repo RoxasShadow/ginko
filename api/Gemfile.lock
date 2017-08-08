@@ -81,7 +81,7 @@ GEM
       money (~> 6.9)
     money (6.9.0)
       i18n (>= 0.6.4, < 0.9)
-    money-coinmarketcap-bank (0.1.2)
+    money-coinmarketcap-bank (0.1.9)
       money (~> 6.9)
     money-rails (1.9.0)
       activesupport (>= 3.0)
@@ -175,8 +175,8 @@ DEPENDENCIES
   factory_girl_rails
   groupdate
   listen (~> 3.0.5)
-  money-coinmarketcap-bank (= 0.1.2)
-  money-rails (~> 1)
+  money-coinmarketcap-bank (~> 0.1.9)
+  money-rails
   pry
   puma (~> 3.0)
   rack-cors
