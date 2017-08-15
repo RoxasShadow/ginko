@@ -128,9 +128,7 @@ class RegisterFunds extends React.Component {
           <InputGroup>
             <InputGroup.Addon><i className="fa fa-money"></i></InputGroup.Addon>
             <FormControl componentClass="select" placeholder="select" onChange={this.handleCurrencyChange}>
-              <option value="EUR">EUR</option>
-              <option value="BTC">BTC</option>
-              <option value="ETH">ETH</option>
+              {window.all_currencies.map(currency => (<option key={currency} value={currency}>{currency}</option>))}
             </FormControl>
           </InputGroup>
           {' '}

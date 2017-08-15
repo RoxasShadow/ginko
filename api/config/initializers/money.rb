@@ -59,16 +59,6 @@ MoneyRails.configure do |config|
   #   :thousands_separator => ".",
   #   :decimal_mark        => ","
   # }
-  config.register_currency = {
-    :priority        => 1,
-    :iso_code        => "ETH",
-    :name            => "Ethereum",
-    :symbol          => "Ξ",
-    :subunit         => "Finney",
-    :subunit_to_unit => 100,
-    :separator       => ".",
-    :delimiter       => ","
-}
 
   # Specify a rounding mode
   # Any one of:
@@ -116,8 +106,8 @@ bank.currencies_list.uniq.each do |s|
     :iso_code        => s,
     :name            => s,
     :symbol          => s,
-    :subunit         => "Finney",
-    :subunit_to_unit => 100,
+    :subunit         => "Satoshi",
+    :subunit_to_unit => 100000000,
     :separator       => ".",
     :delimiter       => ","
   })

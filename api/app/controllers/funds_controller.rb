@@ -5,6 +5,14 @@ class FundsController < ApplicationController
     render json: funds
   end
 
+  # GET /all_currencies
+  def all_currencies
+    render json: {
+      all: ['EUR'] + Money.default_bank.currencies_list.uniq.sort,
+      used: Fund.pluck(:amount_currency).uniq
+    }
+  end
+
   # GET /trend
   def trend
     year  = Date.today.year.to_s

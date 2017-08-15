@@ -78,7 +78,7 @@ class Currencies extends React.Component {
               <div className="btn-group">
                 <CurrencySelector
                   parent={this}
-                  currencies={['ALL', 'EUR', 'BTC', 'ETH']} />
+                  currencies={['ALL'].concat(window.currencies)} />
               </div>
             </div>
 

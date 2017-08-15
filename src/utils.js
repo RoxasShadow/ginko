@@ -36,6 +36,8 @@ function currencyToSym(currency) {
   } else if(currency === 'ETH') {
     return 'Ξ';
   }
+
+  return currency;
 }
 
 function fetch(p, o) {
@@ -47,4 +49,12 @@ function fetch(p, o) {
   }
 }
 
-export { diffAmounts, formatMoney, currencyToSym, fetch };
+function syncFetch(p) {
+  let request = new XMLHttpRequest();
+  request.open('GET', `http://localhost:4567${p}`, false);
+  request.send(null);
+
+  return JSON.parse(request.responseText);
+}
+
+export { diffAmounts, formatMoney, currencyToSym, fetch, syncFetch };

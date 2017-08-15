@@ -9,6 +9,8 @@ import Currencies from './components/Currencies';
 import History from './components/History';
 import RegisterFunds from './components/RegisterFunds';
 
+import { syncFetch } from './utils';
+
 const Budget = () => (
   <div>
     <div className="row">
@@ -53,6 +55,10 @@ const App = () => (
     </Switch>
   </main>
 );
+
+let currencies = syncFetch('/all_currencies');
+window.all_currencies = currencies.all;
+window.currencies     = currencies.used;
 
 ReactDOM.render((
   <HashRouter>
